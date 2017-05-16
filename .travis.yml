@@ -1,10 +1,9 @@
 sudo: required
-language: node_js
 node_js:
 - '6.10.2'
 env:
   global:
-  - secure: Cm4gwZS4r7soQjOVo4OtsPgi9w5iBneZgeDJfdHOl9mnqIy11p207RQKrER2Cv6qVJPy9qAuSrL2gNHJ0kpL064H78z6EJlfIRDkbZu8HE/eaAZ9p8Jpn8BSP+V11ThBcaoTGsR3pW/SA+kvUzK3sfBwnPeHb/NOJXMsV/rNUxQB9yHYLifuj1dLEHh2p2qRScuPudWNv/dcgRZSg5qodqwjUPMf2Jsx0QNm80JKU+BtgO3AHgcOzkwkRQzgSsXhTI0Y/4wZ2eaHeFf6FaGzGkGDDX6wocaCRHynnNY3FtYz7b82RCWiJD3P6C7jz7lCPxwEdKS2KMO+94GPvHWTNfJZAT2UlH8AP5Ag0rDiBAjYPocO+HUBlbksRInhGjNankSFssOcmvsmJk4jZhJpOm4FaORflh9rTkvRUawIH3TrLdXcmbY73grpBMFdGZ1tbrwv6w7NGqou+21e9QIyX3ouXAz7u48OPYhWTZD1VE0S+JYyphCnXo5cNY51ETcvnzDfkguLB0281SrzRU3FK9v5QNFJQd3Cj5BDmCaJjpc1E1CsilMvKrR32uCae9imZeW9AtNHu+wQyeXxXcuCp4ifGZwFWayTjBwCFeHmcNxVgeOaBJ7A/7ut2TvsorfJd2N6fZHnCAXG+tqG2Yiu4zvffxL92ElvTfmaA6WreyY=
+  - secure: hQhehIvXJT0zXZmqkTw+90qozBZrXfCoZVnhxbRVLGx651PXa65tytO+XSe6m4dRQQE82djVDaw1Gaum7XpUmQdcRq+mb9GfG2gud24qcTEcexeGzLI6lLwJ5GsORJWPS05T+A2gzMH+Jn6ACVTseeiMNKTOo/Fg2uZ89EX67S8NbpRhXEyAQS8lnJ1SNcGqvNmWd3u9ZYwXPDG+qC+XBePdteuJQduwriplXTsDUCTHUOeimwHifVOFQ2rt+XsAS37Z72BF7Vtiq06fEHH2zXZms7JC9cPav6vLfx+vB8oX9oyLWpnt1XlTjZztgwnMeEGat8IuOOI+9o+Wgu7Y0UfE1H+LFnrpppyFuXwuJkeafkX+h84NUlP0Kmr+bLueKnRuGETCT3J4+jmNL0fUyfgxbWj1LSTC24fpGC1KvP3Evxj5xHyhfAhOuVcdoM+jxZ3FmcqT+kCDoHgIwqZTPoD0ZxFeePcXyKlmV0xNwTzYOsn8XjWY4noWYEapEbTBC3F6KDHUkkeeP+bwE+tcMu8+RQtb5WzSuj46VkkKewVddkYQaP2X4CQaDMZgqQE6I6DMoDQwejbdTkfX96FXLQGbcwuT/A8gYWppYTZYrChlewyY9MzHGyGZmjKkvkVbUDEJaZSvrJs05TlxYr0PbYkUNUJTafgZlbNfSzdx+3c=
 branches:
   only:
   - master
@@ -13,7 +12,7 @@ before_install:
   - npm install -g git-release-notes
   - chmod +x generate_release_notes.sh
   - chmod +x deploy.sh
-  - git clone --quiet --branch=master https://${GH_TOKEN}@github.com/dizzy/awesome-project > /dev/null
+  - git clone --quiet --branch=master https://${GITHUB_TOKEN}@github.com/dizzy/awesome-project > /dev/null
 install:
   - cd awesome-project
   - release-it -g --non-interactive
