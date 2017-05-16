@@ -1,7 +1,7 @@
 sudo: required
 language: node_js
 node_js:
-- 6.10.2
+- '6.10.2'
 env:
   global:
   - secure: hQhehIvXJT0zXZmqkTw+90qozBZrXfCoZVnhxbRVLGx651PXa65tytO+XSe6m4dRQQE82djVDaw1Gaum7XpUmQdcRq+mb9GfG2gud24qcTEcexeGzLI6lLwJ5GsORJWPS05T+A2gzMH+Jn6ACVTseeiMNKTOo/Fg2uZ89EX67S8NbpRhXEyAQS8lnJ1SNcGqvNmWd3u9ZYwXPDG+qC+XBePdteuJQduwriplXTsDUCTHUOeimwHifVOFQ2rt+XsAS37Z72BF7Vtiq06fEHH2zXZms7JC9cPav6vLfx+vB8oX9oyLWpnt1XlTjZztgwnMeEGat8IuOOI+9o+Wgu7Y0UfE1H+LFnrpppyFuXwuJkeafkX+h84NUlP0Kmr+bLueKnRuGETCT3J4+jmNL0fUyfgxbWj1LSTC24fpGC1KvP3Evxj5xHyhfAhOuVcdoM+jxZ3FmcqT+kCDoHgIwqZTPoD0ZxFeePcXyKlmV0xNwTzYOsn8XjWY4noWYEapEbTBC3F6KDHUkkeeP+bwE+tcMu8+RQtb5WzSuj46VkkKewVddkYQaP2X4CQaDMZgqQE6I6DMoDQwejbdTkfX96FXLQGbcwuT/A8gYWppYTZYrChlewyY9MzHGyGZmjKkvkVbUDEJaZSvrJs05TlxYr0PbYkUNUJTafgZlbNfSzdx+3c=
@@ -9,31 +9,26 @@ branches:
   only:
   - master
 before_install:
-- openssl aes-256-cbc -K $encrypted_56db20973915_key -iv $encrypted_56db20973915_iv
-  -in deploy_rsa.enc -out deploy_rsa -d
-- eval "$(ssh-agent -s)"
-- chmod 600 /tmp/deploy_rsa
-- ssh-add /tmp/deploy_rsa
-- npm install -g release-it
-- npm install -g git-release-notes
-- chmod +x generate_release_notes.sh
-- chmod +x deploy.sh
-- git config --global user.email "travis@travis-ci.org"
-- git config --global user.name "travis-ci"
-- git clone --quiet --branch=master git@github.com:dizzy/releaser.git
-  > /dev/null
-- cd awesome-project
-- release-it -g --non-interactive
-- cd ..
+  - npm install -g release-it
+  - npm install -g git-release-notes
+  - chmod +x generate_release_notes.sh
+  - chmod +x deploy.sh
+  - git config --global user.email "travis@travis-ci.org"
+  - git config --global user.name "travis-ci"
+  - git clone --quiet --branch=master https://${GITHUB_TOKEN}@github.com/dizzy/awesome-project > /dev/null
+  - cd awesome-project
+  - release-it -g --non-interactive
+  - cd ..
 deploy:
 - provider: script
   skip_cleanup: true
-  script: "./generate_release_notes.sh"
+  script: ./generate_release_notes.sh
   on:
     all_branches: true
 - provider: script
   skip_cleanup: true
-  script: "./deploy.sh"
+  script: ./deploy.sh
   on:
     all_branches: true
-after_success: echo "SUCCESS, do something"
+after_success:
+  echo "SUCCESS, do something"
