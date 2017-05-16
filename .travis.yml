@@ -15,10 +15,8 @@ before_install:
   - chmod +x deploy.sh
   - git config --global user.email "travis@travis-ci.org"
   - git config --global user.name "travis-ci"
-  - git clone --quiet --branch=master https://github.com/dizzy/awesome-project.git > /dev/null
+  - git clone --quiet --branch=master git@github.com:dizzy/awesome-project.git > /dev/null
   - cd awesome-project
-  - git remote rm origin
-  - git remote add origin https://dizzy:${GITHUB_TOKEN}@github.com/dizzy/awesome-project.git
   - release-it -g --non-interactive
   - cd ..
 deploy:
