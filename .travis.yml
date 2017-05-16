@@ -1,4 +1,5 @@
 sudo: required
+language: node_js
 node_js:
 - '6.10.2'
 env:
@@ -13,7 +14,6 @@ before_install:
   - chmod +x generate_release_notes.sh
   - chmod +x deploy.sh
   - git clone --quiet --branch=master https://${GITHUB_TOKEN}@github.com/dizzy/awesome-project > /dev/null
-install:
   - cd awesome-project
   - release-it -g --non-interactive
   - cd ..
