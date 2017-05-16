@@ -13,10 +13,9 @@ before_install:
   - chmod +x deploy.sh
   - git clone --quiet --branch=master https://${GH_TOKEN}@github.com/dizzy/awesome-project > /dev/null
 install:
-- true
-before_deploy:
   - cd awesome-project
   - release-it --non-interactive
+  - cd ..
 deploy:
 - provider: script
   skip_cleanup: true
