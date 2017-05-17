@@ -17,9 +17,11 @@ before_install:
 - git config --global user.name "travis-ci"
 - git clone --quiet --branch=master git@github.com:dizzy/awesome-project.git > /dev/null
 - cd awesome-project
-- OLD_TAG="$(git describe --tags $(git rev-list --tags --max-count=1)"
+- OLD_COMMIT="$(git rev-list --tags --max-count=1)"
+- OLD_TAG="$(git describe --tags $OLD_COMMIT"
 - release-it --non-interactive
-- NEW_TAG="$(git describe --tags $(git rev-list --tags --max-count=1)"
+- NEW_COMMIT="$(git rev-list --tags --max-count=1)"
+- NEW_TAG="$(git describe --tags $NEW_COMMIT"
 - git-release-notes $OLD_TAG..$NEW_TAG html > changelog-$NEW_TAG.html
 - ls -la
 - cd ..
