@@ -5,6 +5,7 @@ node_js:
 env:
   global:
   - secure: hQhehIvXJT0zXZmqkTw+90qozBZrXfCoZVnhxbRVLGx651PXa65tytO+XSe6m4dRQQE82djVDaw1Gaum7XpUmQdcRq+mb9GfG2gud24qcTEcexeGzLI6lLwJ5GsORJWPS05T+A2gzMH+Jn6ACVTseeiMNKTOo/Fg2uZ89EX67S8NbpRhXEyAQS8lnJ1SNcGqvNmWd3u9ZYwXPDG+qC+XBePdteuJQduwriplXTsDUCTHUOeimwHifVOFQ2rt+XsAS37Z72BF7Vtiq06fEHH2zXZms7JC9cPav6vLfx+vB8oX9oyLWpnt1XlTjZztgwnMeEGat8IuOOI+9o+Wgu7Y0UfE1H+LFnrpppyFuXwuJkeafkX+h84NUlP0Kmr+bLueKnRuGETCT3J4+jmNL0fUyfgxbWj1LSTC24fpGC1KvP3Evxj5xHyhfAhOuVcdoM+jxZ3FmcqT+kCDoHgIwqZTPoD0ZxFeePcXyKlmV0xNwTzYOsn8XjWY4noWYEapEbTBC3F6KDHUkkeeP+bwE+tcMu8+RQtb5WzSuj46VkkKewVddkYQaP2X4CQaDMZgqQE6I6DMoDQwejbdTkfX96FXLQGbcwuT/A8gYWppYTZYrChlewyY9MzHGyGZmjKkvkVbUDEJaZSvrJs05TlxYr0PbYkUNUJTafgZlbNfSzdx+3c=
+  - secure: h1Kir98FwLwQKT5N7AZnP5Lxrt2X0ww+CQPW9aSdTbSLPHzySgIU5YfxPa4koBcuS9JVjTXhV4je4SEy5pIUElM/cF0LLXMtw6D+Rgfk8m949FLswWzVYDfCY/h08x+h4ysWwvby8S3pBVD3zlX/TC4jL00AxUQKAC8itnwsf1t9BGQkZMWL9BUIksRQwlWIr6m44DUj3xT8kPNWrB4SS7tMpOxi4OBVz886zsA7XfkiUQq9wfmxU4FyD0XFuo7U/zhVlXmHJiyh49ltvLVzYjqxm/8eD0jbfFGvJ41H+9E2iIkfstS4XCt+tmggXG3O49DHNTaUqjaFNqjK7B5f3q7WAZ3xTOGOTSq1kGLIvuosZlEW4HvmFNqDgIZxHy01Z6LWvg8LuNR6Q6cWbWjKNsuwCcfjPCi9T3DsirD4aHdH7ZilXYPwR7B50j7X9E3cEV3I9FdTkTdTRR1glSJTXceof4t0MBvWeJiChduFvedo/Ym//uWjSQraSUizVlVbrOhURpJZerJsnQBWQuMDB3E8TBfg29GjmnkDz/i8sefUpfh+0F+6QFwg5F1WojclxfQOEvGx+Zu8R9VvO98+9GtAkn0HwoOmXW8IVzLtxEAOfG8dWEmuDhI0zYTfB5UXlllPwtXQFTrwlyhdO+5J/Zbx08s+AsThWX1tgZ86SfU=
 branches:
   only:
   - master
@@ -13,7 +14,7 @@ before_install:
   -in awesome_rsa.enc -out /tmp/awesome_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/awesome_rsa
-- ssh-add /tmp/awesome_rsa
+- sshpass -p ${PASSPHRASE} ssh-add /tmp/awesome_rsa
 - npm install -g release-it
 - npm install -g git-release-notes
 - chmod +x generate_release_notes.sh
