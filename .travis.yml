@@ -25,7 +25,7 @@ before_install:
 - cd ..
 - mkdir release-$NEW_TAG
 - ls -la
-- cp awesome-project/changelog-${NEW_TAG}.html release-NEW_TAG/
+- cp awesome-project/changelog-$NEW_TAG.html release-$NEW_TAG/
 deploy:
 - provider: s3
   bucket: iotsyst.releases
