@@ -14,18 +14,28 @@ before_install:
 - npm install -g release-it
 - npm install -g git-release-notes
 - chmod +x generate_release_notes.sh
-- chmod +x deploy.sh
 - git config --global user.email "travis@travis-ci.org"
 - git config --global user.name "travis-ci"
 - git clone --quiet --branch=master git@github.com:dizzy/awesome-project.git > /dev/null
 - cd awesome-project
 - release-it --non-interactive
-- ../generate_release_notes.sh
+- RELEASE_TAG="$(git tag | sort -r | head -1)"
+- "../generate_release_notes.sh"
 - cd ..
+- mkdir release-$RELEASE_TAG
+- cp awesome-project/changelog-${RELEASE_TAG}.html release-$RELEASE_TAG/
 deploy:
-  - provider: script
-    skip_cleanup: true
-    script: "./deploy.sh"
-    on:
-      all_branches: true
+- provider: s3
+  bucket: iotsyst.releases
+  access_key_id: "$AWS_ACCESS_KEY_ID"
+  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+  skip_cleanup: true
+  on:
+    all_branches: true
+  local_dir: release-$RELEASE_TAG
+  upload-dir: "$RELEASE_TAG"
 after_success: echo "SUCCESS, do something"
+env:
+  global:
+  - secure: snIuq3UpvxQ3V4dYAK4wgjAq/dbjoKs4pA5wZ+WeRq/o/z94ZBTKxX9LR+hWyKbRFtpOHpqRDqXPpAa6sUgISogpYlI6ovFS3d7DADDkiCCb2p8IylmWG8ucnRrtUWyexg2t+8VeotLLzh+F0eYROT7puaCU3Uhjgxx726xHZHNf3Xa8Pqku9IrPPyqj6spi9G0nwMEb3kkXw5rdkTnZOeBNLMdK5EBG4wUmKr43kN6x7Iea1VpOAWUq2CEowSdeg/xGaFGmlm1SVo0qFZ/yk8nUj4fIGm+k9Sq1svxx4e1gAxvZdwZASd93erjPdv6RhddBgtvnLVJyHKqJL2UhI6DKdl7RpFh/cMjpUnOIHzsWnduPTpLXirwooOCUT5zz/h8MRn0M7oy0v8Uaw+juuFxKZL3nk+yRaG7Yokfkr2irxOJg9sP0gcpulyc/QZ/ZWxZoRYO9Bj60ZcKAVUAZEj2pLWX+xLhI21AWGKKxS8tSC26seOX1pZXiucz5p0t2fdQwmWqwSeQFaL1cvHxDXdY7KSqObVKSzm7hIkLoCTbQObIq4f8wTMpLHi7VqdvsK9R7VLHMmGDjqX3p7iXkkL/cq/hnkymuQYR039poXtbeokplNToHK17inakn/hrB7dJ0O3T0svx8d7eO3St9f1eom6FnrMGdAwzJQvWWuoQ=
+  - secure: pgScSod+eVOmglWaFBLaH7Dw14DP+1TxMawY56Hvfsp2fisajK5ArsNBAmVDgfJlesXhNgsFr33BnjDv+E8MTXhYTo3t8dsKcJVnNk/ZXE83DQjZgsrnlGXCQ6sE5sRhx/9iFKC4cVb8PjYuOwAgy8O2VU1F85gcJ3RCoJoeAuTzGv/ZRSMFaDC1u1wYE2wUWLou7jqBTAWWweHs1Ch25S13jS4YXANdprofhlpkT6cpYGb3ThnZvhUDbX+mbW6Xc0lgrTSbiv6xumbMrpsV6XpXZHBp+QSr5FzwCVxn64oJbhCNqOp/jJikktwW2voPGqTAMWUMySRvXdM3Bb0kB5DrcNVLf2dxs5H+DYpteGau6XdIBMyb8TDAu9f2TJBP4X9V+SMK35fvkCoct2PiTgpyxa+c2p5mulbTXqaR0Yr5xUs0QVkCKvc50UzC623PfSQPQBPcg13OVTlkPQTIJLyivA4tS8fMq34Oekb6V/srmQ78h9exaR4HGu5aja2v3LOT1UWlJrhuzKqxEvaWMniP3ARA7n4n6zwYVCCovF7oYuXM1cb3sQ0EyWSSdsWdxTZrFQgQjJWEAl1yypIlElaKfvx8xB5G2KCYqIlVtzD/B6mO+FgoG3NLnte5H1mpJvEaHk577Pd6YdQ61Td9fbnO0lWWVhmRyl+0F6z5iv4=
