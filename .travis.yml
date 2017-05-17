@@ -20,13 +20,10 @@ before_install:
 - git clone --quiet --branch=master git@github.com:dizzy/awesome-project.git > /dev/null
 - cd awesome-project
 - release-it --non-interactive
+- LAST_TAG=$(git tag | sort -r | head -1)
+- PREV_TAG=$(git tag | sort -r | head -2 | awk '{split($0, tags, "\n")} END {print tags[1]}')
+- git-release-notes ${PREV_TAG}..${LAST_TAG} > changelog-${LAST_TAG}.html
 - cd ..
-deploy:
-- provider: script
-  skip_cleanup: true
-  script: "./generate_release_notes.sh"
-  on:
-    all_branches: true
 - provider: script
   skip_cleanup: true
   script: "./deploy.sh"
