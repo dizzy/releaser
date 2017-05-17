@@ -20,11 +20,12 @@ before_install:
 - git clone --quiet --branch=master git@github.com:dizzy/awesome-project.git > /dev/null
 - cd awesome-project
 - release-it --non-interactive
+- ../generate_release_notes.sh
 - cd ..
-- ./generate_release_notes.sh
-- provider: script
-  skip_cleanup: true
-  script: "./deploy.sh"
-  on:
-    all_branches: true
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: "./deploy.sh"
+    on:
+      all_branches: true
 after_success: echo "SUCCESS, do something"
