@@ -10,7 +10,10 @@ branches:
   - master
 before_install:
 - openssl aes-256-cbc -K $encrypted_8d9defa06872_key -iv $encrypted_8d9defa06872_iv
-  -in awesome_rsa.enc -out awesome_rsa -d
+  -in awesome_rsa.enc -out /tmp/awesome_rsa -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/awesome_rsa
+- ssh-add /tmp/awesome_rsa
 - npm install -g release-it
 - npm install -g git-release-notes
 - chmod +x generate_release_notes.sh
