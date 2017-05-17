@@ -13,21 +13,19 @@ before_install:
 - echo "${PASSPHRASE}\n" | ssh-add /tmp/awesome_rsa
 - npm install -g release-it
 - npm install -g git-release-notes
-- chmod +x generate_release_notes.sh
 - git config --global user.email "travis@travis-ci.org"
 - git config --global user.name "travis-ci"
 - git clone --quiet --branch=master git@github.com:dizzy/awesome-project.git > /dev/null
 - cd awesome-project
+- OLD_TAG="$(git describe --tags $(git rev-list --tags --max-count=1)"
 - release-it --non-interactive
-- git tag
-- git tag | sort -r | head -1
-- RELEASE_TAG="$(git tag | sort -r | head -1)"
-- "../generate_release_notes.sh"
+- NEW_TAG="$(git describe --tags $(git rev-list --tags --max-count=1)"
+- git-release-notes $OLD_TAG..$NEW_TAG html > changelog-$NEW_TAG.html
 - ls -la
 - cd ..
-- mkdir release-$RELEASE_TAG
+- mkdir release-$NEW_TAG
 - ls -la
-- cp awesome-project/changelog-${RELEASE_TAG}.html release-$RELEASE_TAG/
+- cp awesome-project/changelog-${NEW_TAG}.html release-NEW_TAG/
 deploy:
 - provider: s3
   bucket: iotsyst.releases
@@ -36,8 +34,8 @@ deploy:
   skip_cleanup: true
   on:
     all_branches: true
-  local_dir: release-$RELEASE_TAG
-  upload-dir: "$RELEASE_TAG"
+  local_dir: release-$NEW_TAG
+  upload-dir: "$NEW_TAG"
 after_success: echo "SUCCESS, do something"
 env:
   global:
