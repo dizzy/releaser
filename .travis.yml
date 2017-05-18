@@ -20,7 +20,8 @@ before_install:
 - OLD_TAG="$(git describe --tags $(git rev-list --tags --max-count=1))"
 - release-it --non-interactive
 - NEW_TAG="$(git describe --tags $(git rev-list --tags --max-count=1))"
-- git-release-notes $OLD_TAG..$NEW_TAG html > changelog-$NEW_TAG.html
+- touch changelog-$NEW_TAG.html
+- git-release-notes $OLD_TAG..$NEW_TAG html > changelog-$NEW_TAG.html > /dev/null
 - ls -la
 - cd ..
 - mkdir release-$NEW_TAG
